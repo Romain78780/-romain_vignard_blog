@@ -1,4 +1,4 @@
-import { emailValidator, passwordValidator } from "@/utils/validators"
+import { emailValidator, passwordValidator, usernameValidator } from "@/utils/validators"
 import Alert from "@/web/components/ui/Alert"
 import Form from "@/web/components/ui/Form"
 import FormField from "@/web/components/ui/FormField"
@@ -11,17 +11,19 @@ import { object } from "yup"
 const initialValues = {
   email: "",
   password: "",
+  username: "", 
 }
 const validationSchema = object({
   email: emailValidator.required().label("E-mail"),
   password: passwordValidator.required().label("Password"),
+  username: usernameValidator.required().label("Username"), 
 })
 const SignUpPage = () => {
   const { mutateAsync, isSuccess } = useMutation({
     mutationFn: (data) => createResource("users", data),
   })
-  const handleSubmit = async ({ email, password }) => {
-    await mutateAsync({ email, password })
+  const handleSubmit = async ({ email, password, username }) => {
+    await mutateAsync({ email, password, username })
   }
 
   if (isSuccess) {
@@ -50,6 +52,12 @@ const SignUpPage = () => {
           type="password"
           placeholder="Enter your password"
           label="Password"
+        />
+        <FormField
+          name="username"
+          type="text"
+          placeholder="Choose a username"
+          label="Username"
         />
         <SubmitButton>Sign Up</SubmitButton>
       </Form>

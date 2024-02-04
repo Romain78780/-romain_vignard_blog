@@ -16,3 +16,6 @@ export const passwordValidator = string()
     /(?=.*\p{Lu})(?=.*\p{Ll})(?=.*\d)(?=.*[^\d\p{L}]).*/u,
     "Must contain: 1 lower & 1 upper letters, 1 digit and 1 spe. char.",
   )
+
+export const usernameValidator = string().min(3, "The username must be at least 3 characters long").max(20, "The username must be less than 20 characters long").matches(/^\w+$/u, "The username can only contain letters, numbers, and underscores")
+

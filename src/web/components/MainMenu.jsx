@@ -12,11 +12,21 @@ const MainMenu = ({ children: _, ...otherProps }) => {
             Home
           </Link>
         </li>
+        <li>
+          <Link href="/AdminMenu" styless>
+            Admin fonction
+          </Link>
+        </li>
         {session ? (
           <>
             <li>
-              <Link href="/products/create" styless>
-                Create product
+              <Link href="/post/create" styless>
+                New post
+              </Link>
+            </li>
+            <li>
+              <Link href="/post/profil" styless>
+                Profil
               </Link>
             </li>
             <li>

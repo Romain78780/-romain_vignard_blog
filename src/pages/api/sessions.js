@@ -7,7 +7,6 @@ import genCookies from "@/api/utils/genCookies"
 import hashPassword from "@/db/hashPassword"
 import { AVERAGE_PASSWORD_HASHING_DURATION } from "@/pages/api/constants"
 import sleep from "@/utils/sleep"
-import { emailValidator } from "@/utils/validators"
 import webConfig from "@/web/config"
 import jsonwebtoken from "jsonwebtoken"
 import ms from "ms"
@@ -17,10 +16,11 @@ const handle = mw({
   POST: [
     validate({
       body: {
-        email: emailValidator.required(),
+        email: string().required(),
         password: string().required(),
       },
     }),
+    
     // eslint-disable-next-line max-lines-per-function
     async ({
       send,
@@ -30,7 +30,11 @@ const handle = mw({
       },
       models: { UserModel },
     }) => {
-      const user = await UserModel.query().findOne({ email })
+      const user = await UserModel.query().findOne((builder) => {
+        builder.where("email", email).orWhere("username", email)
+      })
+      
+      
 
       if (!user) {
         await sleep(AVERAGE_PASSWORD_HASHING_DURATION)
